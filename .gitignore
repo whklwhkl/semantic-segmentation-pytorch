@@ -1,5 +1,7 @@
 *.pyc
-
+*data
+*.pth
+*.gitignore
 ckpt/
 vis/
 log/

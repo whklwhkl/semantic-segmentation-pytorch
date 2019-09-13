@@ -141,7 +141,8 @@ if __name__ == '__main__':
         "--imgs",
         required=True,
         type=str,
-        help="an image paths, or a directory name"
+        help="an image paths, or a directory name",
+        nargs='+'
     )
     parser.add_argument(
         "--cfg",
@@ -191,7 +192,7 @@ if __name__ == '__main__':
         imgs = [args.imgs]
     assert len(imgs), "imgs should be a path to image (.jpg) or directory."
     cfg.list_test = [{'fpath_img': x} for x in imgs]
-
+    breakpoint()
     if not os.path.isdir(cfg.TEST.result):
         os.makedirs(cfg.TEST.result)
 
