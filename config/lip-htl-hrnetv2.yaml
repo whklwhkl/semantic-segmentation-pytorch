@@ -2,9 +2,9 @@ DATASET:
   root_dataset: "./data/"
   list_train: "./data/train.odgt"
   list_val: "./data/val.odgt"
-  num_class: 20
-  imgSizes: (300, 375, 450, 525, 600)
-  imgMaxSize: 1000
+  num_class: 4
+  imgSizes: (150, 225, 300, 375, 450)
+  imgMaxSize: 500
   padding_constant: 32
   segm_downsampling_rate: 4
   random_flip: True
@@ -18,7 +18,7 @@ TRAIN:
   batch_size_per_gpu: 2
   num_epoch: 30
   start_epoch: 0
-  epoch_iters: 5000
+  epoch_iters: 3807
   optim: "SGD"
   lr_encoder: 0.02
   lr_decoder: 0.02
