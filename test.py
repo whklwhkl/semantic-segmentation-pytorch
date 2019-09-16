@@ -31,24 +31,24 @@ def visualize_result(data, pred, cfg):
     (img, info) = data
 
     # print predictions in descending order
-    pred = np.int32(pred)
-    pixs = pred.size
-    uniques, counts = np.unique(pred, return_counts=True)
-    print("Predictions in [{}]:".format(info))
-    for idx in np.argsort(counts)[::-1]:
-        name = names[uniques[idx] + 1]
-        ratio = counts[idx] / pixs * 100
-        if ratio > 0.1:
-            print("  {}: {:.2f}%".format(name, ratio))
+    pred = np.uint8(pred)
+    # pixs = pred.size
+    # uniques, counts = np.unique(pred, return_counts=True)
+    # print("Predictions in [{}]:".format(info))
+    # for idx in np.argsort(counts)[::-1]:
+    #     name = names[uniques[idx] + 1]
+    #     ratio = counts[idx] / pixs * 100
+    #     if ratio > 0.1:
+    #         print("  {}: {:.2f}%".format(name, ratio))
 
     # colorize prediction
-    pred_color = colorEncode(pred, colors).astype(np.uint8)
+    # pred_color = colorEncode(pred, colors).astype(np.uint8)
 
     # aggregate images and save
-    im_vis = np.concatenate((img, pred_color), axis=1)
+    # im_vis = np.concatenate((img, pred_color), axis=1)
 
-    img_name = info.split('/')[-1]
-    Image.fromarray(im_vis).save(
+    img_name = os.path.basename(info)
+    Image.fromarray(pred).convert('L').save(
         os.path.join(cfg.TEST.result, img_name.replace('.jpg', '.png')))
 
 
