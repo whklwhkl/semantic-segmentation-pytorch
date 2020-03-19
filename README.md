@@ -1,21 +1,8 @@
-# Semantic Segmentation on MIT ADE20K dataset in PyTorch
+# Semantic Segmentation on LIP dataset in PyTorch
 
-This is a PyTorch implementation of semantic segmentation models on MIT ADE20K scene parsing dataset.
+This is a PyTorch implementation of semantic segmentation models on [LIP](https://github.com/whklwhkl/Look_into_Person_Dataset/tree/full-body) human parsing dataset.
 
-ADE20K is the largest open source dataset for semantic segmentation and scene parsing, released by MIT Computer Vision team. Follow the link below to find the repository for our dataset and implementations on Caffe and Torch7:
-https://github.com/CSAILVision/sceneparsing
-
-If you simply want to play with our demo, please try this link: http://scenesegmentation.csail.mit.edu You can upload your own photo and parse it!
-
-All pretrained models can be found at:
-http://sceneparsing.csail.mit.edu/model/pytorch
-
-<img src="./teaser/ADE_val_00000278.png" width="900"/>
-<img src="./teaser/ADE_val_00001519.png" width="900"/>
-[From left to right: Test Image, Ground Truth, Predicted Result]
-
-Color encoding of semantic categories can be found here:
-https://docs.google.com/spreadsheets/d/1se8YEtb2detS7OuPE86fXGyD269pMycAWe2mtKUj2W8/edit?usp=sharing
+Follow the instructions in the above link to prepare the dataset. Then move the generated `train_full_seg`, `val_full_seq`, `train.odgt` and `val.odgt` to this project's root folder.
 
 ## Updates
 - HRNet model is now supported.
@@ -177,14 +164,22 @@ python3 -u test.py --imgs $PATH_IMG --gpu $GPU --cfg $CFG
 ```
 
 ## Training
-1. Download the ADE20K scene parsing dataset:
+0. setup a docker container as the environment
 ```bash
-chmod +x download_ADE20K.sh
-./download_ADE20K.sh
+echo '*' > .dockerignore
+docker build -t pth-seg
+docker run -it --rm -v `pwd`:/workspace --runtime=nvidia --ipc=host pth-seg
+```
+1. Download the LIP Human parsing dataset:
+```bash
+git clone https://github.com/whklwhkl/Look_into_Person_Dataset/tree/full-body
+cd Look_into_Person_Dataset
+make
+cd ..
 ```
 2. Train a model by selecting the GPUs (```$GPUS```) and configuration file (```$CFG```) to use. During training, checkpoints by default are saved in folder ```ckpt```.
 ```bash
-python3 train.py --gpus $GPUS --cfg $CFG 
+CUDA_VISIBLE_DEVICES=0,1,2,3 python train.py --cfg config/lip-full-hrnetv2.yaml --gpus 0-3
 ```
 - To choose which gpus to use, you can either do ```--gpus 0-7```, or ```--gpus 0,2,4,6```.
 
